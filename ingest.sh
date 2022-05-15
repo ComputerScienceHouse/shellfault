@@ -11,8 +11,8 @@ _GET_QUOTES="curl https://quotefault.csh.rit.edu/storage -H 'Accept: application
 
 sh -c "$_GET_QUOTES" | \
   TZ=America/New_York jq -j '[.quotes | .[] | (
-    .quote +
-    "\n\t\t-- " + .speaker +
+    "\"" + .quote +
+    "\"\n\t\t-- " + .speaker +
     ", (Submitted by: " + .submitter + "), " +
     (.time | sub("\\+00:00$"; "Z") | fromdateiso8601 | strflocaltime("%F %T")) + "\n%"
   )] | sort | join("\n")' > /etc/fortune/csh
